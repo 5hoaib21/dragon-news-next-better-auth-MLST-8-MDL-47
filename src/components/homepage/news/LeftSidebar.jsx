@@ -11,7 +11,7 @@ const LeftSidebar = ({ categories, activeId }) => {
             <li
               key={category.category_id}
               className={`
-                ${activeId === category.category_id && "bg-purple-500 text-white"}
+                ${activeId === category.category_id && "bg-zinc-300 text-Black"}
                   rounded-md font-bold text-center text-md`}
             >
               <Link
