@@ -1,7 +1,11 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import React from "react";
+import { redirect } from "next/navigation";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const RegisterPage = () => {
   const {
@@ -11,11 +15,30 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm();
 
-  const handleRegisterFunc = (data) => {
-    console.log('data:', data);
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
+  const handleRegisterFunc = async (data) => {
+    console.log("data:", data);
+    const { email, name, photo, password } = data;
+    const { data: res, error } = await authClient.signUp.email({
+      name: name,
+      email: email,
+      password: password,
+      image: photo,
+      callbackURL: "/",
+    });
+    console.log(res, error);
+    if (error) {
+      toast.error(error.message);
+    }
+
+    if (res) {
+      toast.success("Registration Successful😊 Please Login with same info.");
+    
+    }
   };
-  console.log("EMAIL:", watch("email"));
-  console.log("PASSWORD:", watch("password"));
+  //   console.log("EMAIL:", watch("email"));
+  //   console.log("PASSWORD:", watch("password"));
 
   return (
     <div className="container mx-auto min-h-[80vh] flex justify-center items-center bg-slate-200">
@@ -63,10 +86,10 @@ const RegisterPage = () => {
               <p className="text-red-500 ">{errors.email.message}</p>
             )}
           </fieldset>
-          <fieldset className="fieldset">
+          <fieldset className="fieldset relative">
             <legend className="fieldset-legend">Password</legend>
             <input
-              type="password"
+              type={isShowPassword ? "text" : "password"}
               className="input"
               // name="password"
               {...register("password", {
@@ -74,12 +97,18 @@ const RegisterPage = () => {
               })}
               placeholder="Type your password"
             />
+            <span
+              className="absolute right-10 top-3 cursor-pointer"
+              onClick={() => setIsShowPassword(!isShowPassword)}
+            >
+              {isShowPassword ? <FaEye size={25} /> : <FaEyeSlash size={25} />}
+            </span>
             {errors.password && (
               <p className="text-red-500 ">{errors.password.message}</p>
             )}
           </fieldset>
           <button className="btn w-full bg-black text-white">
-            Register Now
+            <Link href={"/login"}>Register Now</Link>
           </button>
         </form>
         <p>
@@ -89,6 +118,7 @@ const RegisterPage = () => {
           </Link>
         </p>
       </div>
+      <Toaster />
     </div>
   );
 };
