@@ -112,7 +112,7 @@ const RegisterPage = () => {
           </button>
         </form>
         <p>
-          have an account?{" "}
+          have an account ?{" "}
           <Link className="text-blue-500 underline" href={"/login"}>
             Login
           </Link>
