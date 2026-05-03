@@ -8,7 +8,7 @@ const Header = () => {
     <div className="text-center py-8 space-y-2">
       <Image
         src={logo}
-        width={300}
+        width={200}
         height={200}
         alt="Logo"
         className="mx-auto"

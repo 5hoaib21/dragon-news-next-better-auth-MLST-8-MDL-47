@@ -23,7 +23,7 @@ const LoginPage = () => {
       rememberMe: true,
       callbackURL: "/",
     });
-    console.log(res, error);
+    // console.log(res, error);
        if (error) {
       toast.error('something went wrong!, please try again after some time');
     }
